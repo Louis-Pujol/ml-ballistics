@@ -3,6 +3,7 @@ name = "mlballistics"
 version = "1.0"
 dependencies = [
     "torch",
+    "numpy",
 ]
 
 [build-system]
