@@ -67,7 +67,7 @@ jobs:
             rm -r reports/
             rm flake8stats.txt
         
-      - name: push badges to repo
+      - name: push badges to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
             commit_message: "[skip ci] add badges"
