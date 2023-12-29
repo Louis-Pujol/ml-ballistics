@@ -13,7 +13,7 @@ jobs:
     permissions:
         # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
         contents: write
-        
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,19 +45,28 @@ jobs:
             mv coverage.xml reports/coverage/coverage.xml
             mv htmlcov reports/coverage/htmlcov
 
+            pip install flake8
+            flake8 --statistics --tee --output-file flake8stats.txt
+            flake8 src --exit-zero --statistics --tee --output-file flake8stats.txt
+
             pip install genbadge[all]
             genbadge coverage
             genbadge tests
+            genbadge flake8 -i - < flake8stats.txt
             
             if [ ! -d "badges" ]; then
                 mkdir badges
             fi
+
             mv coverage-badge.svg badges/
             echo "coverage-badge.svg moved to badges folder"
             mv tests-badge.svg badges/
             echo "tests-badge.svg moved to badges folder"
+            mv flake8-badge.svg badges/
+            echo "flake8-badge.svg moved to badges folder"
             
             rm -r reports/
+            rm flake8stats.txt
         
       - name: push badges to repo
         uses: stefanzweifel/git-auto-commit-action@v5
