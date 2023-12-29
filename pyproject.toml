@@ -1,6 +1,6 @@
 [project]
 name = "mlballistics"
-version = "0.1"
+version = "1.0"
 dependencies = [
     "torch",
 ]
@@ -9,8 +9,12 @@ dependencies = [
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
+
 [project.optional-dependencies]
 dev = [
     "pytest",
     "pytest-cov",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
