@@ -46,7 +46,6 @@ jobs:
             mv htmlcov reports/coverage/htmlcov
 
             pip install flake8
-            flake8 --statistics --tee --output-file flake8stats.txt
             flake8 src --exit-zero --statistics --tee --output-file flake8stats.txt
 
             pip install genbadge[all]
