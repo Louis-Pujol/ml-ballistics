@@ -31,41 +31,56 @@ jobs:
 
       - name: Test with pytest and generate badges (coverage/tests)
         run: |
-            pytest \
-                --junitxml=reports/junit/junit.xml \
-                --html=reports/junit/report.html \
-                --cov=mlballistics \
-                tests/
-        
-            coverage report
-            coverage xml
-            coverage html
-        
-            mkdir reports/coverage
-            mv coverage.xml reports/coverage/coverage.xml
-            mv htmlcov reports/coverage/htmlcov
-
-            pip install flake8
-            flake8 src --exit-zero --statistics --tee --output-file flake8stats.txt
-
-            pip install genbadge[all]
-            genbadge coverage
-            genbadge tests
-            genbadge flake8 -i - < flake8stats.txt
-            
-            if [ ! -d "badges" ]; then
-                mkdir badges
-            fi
-
-            mv coverage-badge.svg badges/
-            echo "coverage-badge.svg moved to badges folder"
-            mv tests-badge.svg badges/
-            echo "tests-badge.svg moved to badges folder"
-            mv flake8-badge.svg badges/
-            echo "flake8-badge.svg moved to badges folder"
-            
-            rm -r reports/
-            rm flake8stats.txt
+          pytest \
+          --junitxml=reports/junit/junit.xml \
+          --html=reports/junit/report.html \
+          --cov=mlballistics \
+          tests/
+      
+          coverage report
+          coverage xml
+          coverage html
+          
+          mkdir reports/coverage
+          mv coverage.xml reports/coverage/coverage.xml
+          mv htmlcov reports/coverage/htmlcov
+          rm reports/coverage/htmlcov/.gitignore
+          
+          pip install flake8
+          flake8 src \
+              --exit-zero \
+              --statistics \
+              --format=html \
+              --htmldir ./reports/flake8 \
+              --tee \
+              --output-file flake8stats.txt
+          
+          pip install genbadge[all]
+          genbadge coverage
+          genbadge tests
+          genbadge flake8 -i - < flake8stats.txt
+          
+          mv flake8stats.txt reports/flake8/
+          
+          
+          if [ ! -d ".badges" ]; then
+              mkdir .badges
+          fi
+          
+          mv coverage-badge.svg .badges/
+          echo "coverage-badge.svg moved to .badges"
+          mv tests-badge.svg .badges/
+          echo "tests-badge.svg moved to .badges"
+          mv flake8-badge.svg .badges/
+          echo "flake8-badge.svg moved to .badges"
+          
+          
+          if [ -d ".badges/reports" ]; then
+              rm -r .badges/reports
+          fi
+          
+          mv reports .badges/reports
+          echo "reports folder moved to .badges"
         
       - name: push badges to repository
         uses: stefanzweifel/git-auto-commit-action@v5
