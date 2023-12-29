@@ -1,0 +1,9 @@
+2     E125 continuation line with same indent as next logical line
+2     E251 unexpected spaces around keyword / parameter equals
+1     E265 block comment should start with '# '
+7     E302 expected 2 blank lines, found 1
+1     E303 too many blank lines (2)
+9     F401 '.base_force.Force' imported but unused
+1     W291 trailing whitespace
+10    W292 no newline at end of file
+31    W293 blank line contains whitespace
