@@ -63,27 +63,35 @@ jobs:
           mv flake8stats.txt reports/flake8/
           
           
-          if [ ! -d ".badges" ]; then
-              mkdir .badges
+          if [ ! -d "badges" ]; then
+              mkdir badges
           fi
           
-          mv coverage-badge.svg .badges/
-          echo "coverage-badge.svg moved to .badges"
-          mv tests-badge.svg .badges/
-          echo "tests-badge.svg moved to .badges"
-          mv flake8-badge.svg .badges/
-          echo "flake8-badge.svg moved to .badges"
+          mv coverage-badge.svg badges/
+          echo "coverage-badge.svg moved to badges"
+          mv tests-badge.svg badges/
+          echo "tests-badge.svg moved to badges"
+          mv flake8-badge.svg badges/
+          echo "flake8-badge.svg moved to badges"
           
           
-          if [ -d ".badges/reports" ]; then
-              rm -r .badges/reports
+          if [ -d "badges/reports" ]; then
+              rm -r badges/reports
           fi
           
-          mv reports .badges/reports
-          echo "reports folder moved to .badges"
+          mv reports badges/reports
+          echo "reports folder moved to badges"
         
       - name: push badges to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
             commit_message: "[skip ci] add badges"
+            file_pattern: 'badges/*.svg'
+      
+      - name: push reports to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./badges/reports
+          publish_branch: gh-pages
 
