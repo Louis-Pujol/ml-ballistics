@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         # os: [ubuntu-latest, macos-latest]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
         os: [ubuntu-latest]
 
     steps:
@@ -28,6 +28,42 @@ jobs:
           pip install --upgrade pip
           pip install -e .[dev]
 
-      - name: Test with pytest
+      - name: Test with pytest and generate badges (coverage/tests)
         run: |
-          pytest tests/
+            pytest \
+                --junitxml=reports/junit/junit.xml \
+                --html=reports/junit/report.html \
+                --cov=mlballistics \
+                tests/
+        
+            coverage report
+            coverage xml
+            coverage html
+        
+            mkdir reports/coverage
+            mv coverage.xml reports/coverage/coverage.xml
+            mv htmlcov reports/coverage/htmlcov
+            
+            genbadge coverage
+            genbadge tests
+            
+            if [ ! -d "badges" ]; then
+                mkdir badges
+            fi
+            mv coverage-badge.svg badges/
+            echo "coverage-badge.svg moved to badges folder"
+            mv tests-badge.svg badges/
+            echo "tests-badge.svg moved to badges folder"
+            
+            rm -r reports/
+        
+      - name: push badges to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+            commit_message: "[skip ci] add badges"
+            commit_options: '--no-verify'
+            file_pattern: badges/*.svg
+            repository: ${{ github.repository }}
+            branch: ${{ github.ref }}
+
+
