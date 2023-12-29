@@ -43,7 +43,8 @@ jobs:
             mkdir reports/coverage
             mv coverage.xml reports/coverage/coverage.xml
             mv htmlcov reports/coverage/htmlcov
-            
+
+            pip install genbadge[all]
             genbadge coverage
             genbadge tests
             
