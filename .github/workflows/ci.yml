@@ -46,7 +46,7 @@ jobs:
           mv htmlcov reports/coverage/htmlcov
           rm reports/coverage/htmlcov/.gitignore
           
-          pip install flake8
+          pip install flake8 flake8-html
           flake8 src \
               --exit-zero \
               --statistics \
