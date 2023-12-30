@@ -2,5 +2,3 @@
 
 # ml-ballistics
 Solve ballistics problems with machine learning
-
-https://louis-pujol.github.io/ml-ballistic
