@@ -2,6 +2,7 @@ import torch
 
 from .base_force import Force
 
+
 class Drag(Force):
     r"""Drag force.
 
@@ -18,7 +19,7 @@ class Drag(Force):
     The drag coefficient is given by the following formula:
     $$ C = \frac{\rho A c_d}{2} $$
     where
-    
+
     - $\rho$ is the fluid density
     - $A$ is the cross-sectional area of the object
     - $c_d$ is the drag coefficient of the object
@@ -28,31 +29,31 @@ class Drag(Force):
     https://en.wikipedia.org/wiki/Drag_coefficient
 
 
-    
+
     Parameters
     ----------
     density
         Fluid density.
-            
+
     """
 
     def __init__(
             self,
             density: float = 1.0,
-        ) -> None:
+            ) -> None:
         super().__init__()
         self._density = density
-    
-    def __call__(self, state=None, object=None) -> torch.Tensor:
+
+    def __call__(self, state=None, obj=None) -> torch.Tensor:
         v = state[3:6]
         v_norm = torch.norm(v)
-        C = self._density * object.drag_coefficient * object.sectional_area / 2
+        C = self._density * obj.drag_coefficient * obj.sectional_area / 2
         return - C * v_norm * v
-    
+
     @property
     def density(self) -> float:
         return self._density
-    
+
     @density.setter
     def density(self, value: float) -> None:
         self._density = value

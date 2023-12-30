@@ -2,9 +2,10 @@
 
 import torch
 
+
 def _ei(n: int, i: int) -> torch.Tensor:
     """Vector of the standard basis of R^n.
-    
+
     Parameters
     ----------
     n

@@ -1,3 +1,4 @@
+# flake8: noqa
 """Forces module."""
 
 from .base_force import Force

@@ -1,0 +1,4 @@
+[flake8]
+extend-ignore = ANN, D
+exclude = .git,__pycache__,docs/source/conf.py,old,build,dist,__init__.py
+max-complexity = 10

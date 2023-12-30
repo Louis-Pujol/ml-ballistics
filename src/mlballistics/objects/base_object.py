@@ -3,9 +3,10 @@ import torch
 
 from ..forces import NullForce, Force
 
+
 class Object:
     """Base class for all objects in the simulation.
-    
+
     Parameters
     ----------
     mass
@@ -28,7 +29,7 @@ class Object:
             self._force = NullForce()
         else:
             self._force = force
-        
+
         if initial_position is None:
             self._initial_position = torch.zeros(3, dtype=torch.float)
         else:
@@ -41,14 +42,14 @@ class Object:
 
     def ode_func(self, t, y):
         """ODE function for the object.
-        
+
         Parameters
         ----------
         t
             Time.
         y
             State vector of the object.
-        
+
         Returns
         -------
         torch.Tensor
@@ -62,12 +63,12 @@ class Object:
 
     def forces_vector(self, state=None) -> torch.Tensor:
         """Vector of forces for the object.
-        
+
         Parameters
         ----------
         state
             State vector of the object.
-        
+
         Returns
         -------
         torch.Tensor
@@ -75,18 +76,18 @@ class Object:
         """
         state = self.initial_state if state is None else state
         return self._force(state, self)
-    
+
     @property
     def initial_state(self) -> torch.Tensor:
         """Initial state vector of the object.
-        
+
         Parameters
         ----------
         position
             Position of the object.
         velocity
             Velocity of the object.
-        
+
         Returns
         -------
         torch.Tensor
@@ -111,7 +112,7 @@ class Object:
     @mass.setter
     def mass(self, value: float) -> None:
         """Set the mass of the object.
-        
+
         Parameters
         ----------
         value
@@ -129,11 +130,11 @@ class Object:
             Drag coefficient of the object.
         """
         return self._drag_coefficient
-    
+
     @drag_coefficient.setter
     def drag_coefficient(self, value: float) -> None:
         """Set the drag coefficient of the object.
-        
+
         Parameters
         ----------
         value
@@ -151,11 +152,11 @@ class Object:
             Sectional area of the object.
         """
         return self._sectional_area
-    
+
     @sectional_area.setter
     def sectional_area(self, value: float) -> None:
         """Set the sectional area of the object.
-        
+
         Parameters
         ----------
         value
@@ -173,12 +174,11 @@ class Object:
             Force acting on the object.
         """
         return self._force
-    
 
     @force.setter
     def force(self, value: Force) -> None:
         """Set the force acting on the object.
-        
+
         Parameters
         ----------
         value
@@ -196,11 +196,11 @@ class Object:
             Initial position of the object.
         """
         return self._initial_position
-    
+
     @initial_position.setter
     def initial_position(self, value: torch.Tensor) -> None:
         """Set the initial position of the object.
-        
+
         Parameters
         ----------
         value
@@ -218,11 +218,11 @@ class Object:
             Initial velocity of the object.
         """
         return self._initial_velocity
-    
+
     @initial_velocity.setter
     def initial_velocity(self, value: torch.Tensor) -> None:
         """Set the initial velocity of the object.
-        
+
         Parameters
         ----------
         value
