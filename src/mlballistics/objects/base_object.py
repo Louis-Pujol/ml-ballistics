@@ -1,5 +1,7 @@
-from typing import Optional
 import torch
+from torchdiffeq import odeint
+from typing import Optional
+
 
 from ..forces import NullForce, Force
 
@@ -60,6 +62,23 @@ class Object:
             self.forces_vector(y) / self.mass,
             ]
         )
+
+    def simulate(self, time: torch.Tensor):
+        """Simulate the object.
+
+        Parameters
+        ----------
+        time
+            Time of the simulation.
+        """
+        self._states = odeint(
+            self.ode_func,
+            self.initial_state,
+            t=time,
+            method="rk4",
+        )
+
+        self._trajectory = self._states[:, :3]
 
     def forces_vector(self, state=None) -> torch.Tensor:
         """Vector of forces for the object.
@@ -176,7 +195,7 @@ class Object:
         return self._force
 
     @force.setter
-    def force(self, value: Force) -> None:
+    def force(self, value: Optional[Force]) -> None:
         """Set the force acting on the object.
 
         Parameters
@@ -184,7 +203,10 @@ class Object:
         value
             Force acting on the object.
         """
-        self._force = value
+        if value is None:
+            self._force = NullForce()
+        else:
+            self._force = value
 
     @property
     def initial_position(self) -> torch.Tensor:
@@ -229,3 +251,14 @@ class Object:
             Initial velocity of the object.
         """
         self._initial_velocity = value
+
+    @property
+    def trajectory(self) -> torch.Tensor:
+        """Get the trajectory of the object.
+
+        Returns
+        -------
+        torch.Tensor
+            Trajectory of the object.
+        """
+        return self._trajectory

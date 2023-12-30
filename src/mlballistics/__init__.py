@@ -1,1 +1,1 @@
-all = ['forces', 'objects']
+all = ['forces', 'objects', 'scene']

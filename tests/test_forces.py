@@ -141,6 +141,18 @@ def test_dependencies_null():
     _test_force_dependencies(NullForce(), dependencies_null)
 
 
+def test_force_none():
+    """Test setting force=None."""
+
+    obj = Sphere(mass=1.0, radius=0.5)
+    obj.force = None
+
+    assert torch.allclose(
+        obj.forces_vector(),
+        torch.zeros(3)
+    )
+
+
 def test_gravity():
 
     m = 2.3
