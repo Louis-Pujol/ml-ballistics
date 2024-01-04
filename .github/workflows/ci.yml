@@ -102,6 +102,10 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
+
+      - name: Setup headless display
+        uses: pyvista/setup-headless-display-action@v2
+
       - run: mkdocs gh-deploy --force
 
       - name: push reports to gh-pages branch
