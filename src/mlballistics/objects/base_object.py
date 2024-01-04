@@ -1,5 +1,6 @@
 import torch
 from torchdiffeq import odeint
+import pyvista as pv
 from typing import Optional
 
 
@@ -95,6 +96,28 @@ class Object:
         """
         state = self.initial_state if state is None else state
         return self._force(state, self)
+
+    def _actor_from_mesh(
+            self,
+            mesh: pv.PolyData,
+            prop: pv.Property = None,
+            ) -> pv.Actor:
+        """Actor of the object.
+
+        Parameters
+        ----------
+        mesh
+            Mesh of the object.
+
+        Returns
+        -------
+        pv.PolyData
+            Actor of the object.
+        """
+        mapper = pv.DataSetMapper(dataset=mesh)
+        actor = pv.Actor(mapper=mapper)
+        actor.prop = prop
+        return actor
 
     @property
     def initial_state(self) -> torch.Tensor:

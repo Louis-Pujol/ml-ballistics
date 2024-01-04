@@ -1,0 +1,19 @@
+site_name: ml-ballistics
+site_description: 'Playing with ballistics and ML in python'
+repo_url: https://github.com/Louis-Pujol/ml-ballistics
+
+theme:
+  name: material  # readthedocs  mkdocs  material
+  palette:
+    primary: light blue
+
+nav:
+  - Home: index.md
+  - Gallery of examples: generated/gallery
+
+plugins:
+  - search
+  - gallery:
+      conf_script: docs/gallery_conf.py
+      examples_dirs: examples
+      gallery_dirs: docs/generated/gallery

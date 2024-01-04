@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: 'pip'
-      
+
       - name: Install package (with dev dependencies)
         run: |
           pip install --upgrade pip
@@ -36,16 +36,16 @@ jobs:
           --html=reports/junit/report.html \
           --cov=mlballistics \
           tests/
-      
+
           coverage report
           coverage xml
           coverage html
-          
+
           mkdir reports/coverage
           mv coverage.xml reports/coverage/coverage.xml
           mv htmlcov reports/coverage/htmlcov
           rm reports/coverage/htmlcov/.gitignore
-          
+
           pip install flake8 flake8-html
           flake8 src \
               --exit-zero \
@@ -54,40 +54,40 @@ jobs:
               --htmldir ./reports/flake8 \
               --tee \
               --output-file flake8stats.txt
-          
+
           pip install genbadge[all]
           genbadge coverage
           genbadge tests
           genbadge flake8 -i - < flake8stats.txt
-          
+
           mv flake8stats.txt reports/flake8/
-          
-          
+
+
           if [ ! -d "badges" ]; then
               mkdir badges
           fi
-          
+
           mv coverage-badge.svg badges/
           echo "coverage-badge.svg moved to badges"
           mv tests-badge.svg badges/
           echo "tests-badge.svg moved to badges"
           mv flake8-badge.svg badges/
           echo "flake8-badge.svg moved to badges"
-          
-          
+
+
           if [ -d "badges/reports" ]; then
               rm -r badges/reports
           fi
-          
+
           mv reports badges/reports
           echo "reports folder moved to badges"
-        
+
       - name: push badges to repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
             commit_message: "[skip ci] add badges"
             file_pattern: 'badges/*.svg'
-      
+
       - name: push reports to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
         with:

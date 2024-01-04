@@ -5,6 +5,7 @@ dependencies = [
     "torch",
     "numpy",
     "torchdiffeq",
+    "pyvista",
 ]
 
 [build-system]
