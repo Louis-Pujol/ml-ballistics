@@ -43,6 +43,8 @@ class Object:
         else:
             self._initial_velocity = initial_velocity
 
+        self._trajectory = None
+
     def ode_func(self, t, y):
         """ODE function for the object.
 
@@ -276,7 +278,7 @@ class Object:
         self._initial_velocity = value
 
     @property
-    def trajectory(self) -> torch.Tensor:
+    def trajectory(self) -> Optional[torch.Tensor]:
         """Get the trajectory of the object.
 
         Returns

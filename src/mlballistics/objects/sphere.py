@@ -28,6 +28,12 @@ class Sphere(Object):
         if time == 0:
             position_np = self.initial_position.detach().cpu().numpy()
         else:
+            if self.trajectory is None:
+                raise ValueError(
+                    "No trajectory found. Please simulate a scene with this"
+                    " object before plotting it."
+                )
+
             position_np = self.trajectory[time].detach().cpu().numpy()
 
         prop = pv.Property(**kwargs)
