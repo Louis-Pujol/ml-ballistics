@@ -102,8 +102,6 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material
-      - run: pip install mkdocs-gallery @ git+https://github.com/Louis-Pujol/mkdocs-gallery@latest
       - run: mkdocs gh-deploy --force
 
       - name: push reports to gh-pages branch
