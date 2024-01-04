@@ -88,6 +88,23 @@ jobs:
             commit_message: "[skip ci] add badges"
             file_pattern: 'badges/*.svg'
 
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+
+
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - run: pip install mkdocs-material
+      - run: mkdocs gh-deploy --force
+
       - name: push reports to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
         with:
