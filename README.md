@@ -7,4 +7,12 @@ The game: a missile is launch at `t=0` from position `(0, 0)` with a given initi
 
 Given contrains for the missile and a trajectory pattern for the target, the goal is to learn to adjust the initial velocity of the sphere to reach the target. The input is he initial position and velocity of the target and the model must output an initial speed for the missile.
 
+<p style="text-align: center;">
+  <figure>
+    <img height=300 src="examples/drag.gif" alt="Drag" />
+    <figcaption>Two missiles with same initial speed, with air resistance (red) or without (blue).</figcaption>
+  </figure>
+</p>
+
+
 For the moments, all objects are sphere. To know more about the mechanics of a bullet read this [post](https://euroballistics.org/lois_balistiques_Eng.htm#balexterieure) from euroballistics.
